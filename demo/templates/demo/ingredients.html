@@ -1,0 +1,24 @@
+{% extends 'demo/base.html' %}
+
+{% block content %}
+    <h3>List of Ingredients</h3>
+    <table class="table table-striped table-hover thead-dark">
+        <thead>
+            <tr>
+                <th scope="col">NDB_No</th>
+                <th scope="col">Short Description</th>
+                <th scope="col">Manufacturer</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ingredient in object_list %}
+            <tr>
+                <td><a href="{% url 'ingredient-detail' ingredient.NDB_No %}">{{ ingredient.NDB_No }}</a></td>
+                <td>{{ ingredient.Shrt_Desc }}</td>
+                <td>{{ ingredient.ManufacName }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% include 'demo/_pagination.html' %}
+{% endblock %}

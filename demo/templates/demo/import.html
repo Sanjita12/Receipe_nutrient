@@ -1,0 +1,21 @@
+{% extends 'demo/base.html' %}
+
+{% block content %}
+    <h3>List of Ingredients</h3>
+    <table class="table table-striped table-hover thead-dark">
+        <thead>
+            <tr>
+                <th scope="col">Model </th>
+                <th scope="col">Row Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key,count in count_obj_list.items %}
+            <tr>
+                <td>{{ key.capitalize }}</td>
+                <td>{{ count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

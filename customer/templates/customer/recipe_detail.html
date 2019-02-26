@@ -1,0 +1,36 @@
+{% extends 'demo/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="heading-block main-block">
+        <h3>{{ recipe.title  }}</h3>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Ingredient</th>
+                        <th>Quantity</th>
+                        <th>Serving Size</th>
+                        <th>Serving Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ingredient in all_ingredients %}
+                    <tr>
+                        <td>{{ ingredient.ingredient.Shrt_Desc }}</td>
+                        <td>{{ ingredient.quantity }}</td>
+                        <td>{{ ingredient.serving_size }}</td>
+                        <td>{{ ingredient.serving_type }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+{% block extrajs %}
+    <script  src="{% static 'js/custom.js' %}"></script>
+{% endblock %}

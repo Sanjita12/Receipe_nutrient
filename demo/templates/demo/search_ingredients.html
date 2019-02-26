@@ -1,0 +1,83 @@
+{% if ingredients %}
+        <table class="table table-striped table-hover thead-dark" style="margin-top:35px;" id="searched_results">
+            <thead>
+                <tr>
+                    <th scope="col">Ingredient</th>
+                    <th scope="col" >Quantity</th>
+                    <th scope="col">Serving Size</th>
+                    <td scope="col">Calories</td>
+                    <td scope="col">Fat</td>
+                    <td scope="col">Protein</td>
+                    <td scope="col">Carb</td>
+                    <td scope="col">Fiber</td>
+                    <td scope="col">Sugar</td>
+                    <th scope="col">Detail</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in ingredients %}
+                <tr class="row_{{ item.NDB_No }}">
+                    <td><a href="{% url 'ingredient-detail' item.NDB_No %}">{{item.Shrt_Desc}}</a></td>
+                    <td>
+                        <input type="text" name="qty" size="2" value="1" id="qty_{{item.NDB_No}}" class="qty" data-prev="1">
+                    </td>
+                    <td>
+                        <select name="weight" class="form-control serving_size" id="serving_{{item.NDB_No}}" data-prev="100">
+                            <option value="100" data-serving_type="gm">100gm</option>
+                            {% for weight in item.weights.all %}
+                                <option data-content="{{ weight.Msre_Desc|slice:'0:6' }}" value="{{weight.Gm_Wgt}}" data-serving_type="{{weight.Msre_Desc}}">{{ weight.Msre_Desc }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td id="item_{{item.NDB_No}}_208">
+                        {% for nutrient in item.major_nutrients %}
+                            {% if nutrient.Nutr_No.Nutr_No == '208' %}
+                                {{ nutrient.Nutr_Val|floatformat:-2 }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td id="item_{{item.NDB_No}}_204">
+                        {% for nutrient in item.major_nutrients %}
+                            {% if nutrient.Nutr_No.Nutr_No == '204' %}
+                                {{ nutrient.Nutr_Val|floatformat:-2 }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td id="item_{{item.NDB_No}}_203">
+                        {% for nutrient in item.major_nutrients %}
+                            {% if nutrient.Nutr_No.Nutr_No == '203' %}
+                                {{ nutrient.Nutr_Val|floatformat:-2 }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td id="item_{{item.NDB_No}}_205">
+                        {% for nutrient in item.major_nutrients %}
+                            {% if nutrient.Nutr_No.Nutr_No == '205' %}
+                                {{ nutrient.Nutr_Val|floatformat:-2 }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td id="item_{{item.NDB_No}}_291">
+                        {% for nutrient in item.major_nutrients %}
+                            {% if nutrient.Nutr_No.Nutr_No == '291' %}
+                                {{ nutrient.Nutr_Val|floatformat:-2 }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td id="item_{{item.NDB_No}}_269">
+                        {% for nutrient in item.major_nutrients %}
+                            {% if nutrient.Nutr_No.Nutr_No == '269' %}
+                                {{ nutrient.Nutr_Val|floatformat:-2 }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td><a href="#" class='add_button' data-id="{{item.NDB_No}}">Add</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination" style="justify-content: center;">
+            {{pagination|safe}}
+        </div>
+    {% endif %}

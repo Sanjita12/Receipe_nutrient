@@ -1,0 +1,17 @@
+{% if ingredient %}
+<tr class="ingrow_{{ ingredient.NDB_No }} ingredient_rows" data-NDB_No="{{ ingredient.NDB_No }}" data-quantity="{{ qty }} " data-serving_type="{{serving_type}}" data-serving_size="{{ serving_size }}" >
+    <td>{{ingredient.Shrt_Desc}}</td>
+    <td>
+        {{ qty }} 
+    </td>
+    <td>
+        {{serving_type}}
+    </td>
+        {% for key, value in nutrients.items %}
+            <td id="ing_{{ingredient.NDB_No}}_{{key}}">
+                {{ value|floatformat:-2 }}
+            </td>
+        {% endfor %}
+    <td><a href="#" class='remove_button' data-id="{{ingredient.NDB_No}}">Remove</a></td>
+</tr>
+{% endif %}

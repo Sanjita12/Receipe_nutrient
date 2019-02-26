@@ -1,0 +1,24 @@
+{% extends 'demo/base.html' %}
+
+{% block content %}
+    <h3>List of Nutrients</h3>
+    <table class="table table-striped table-hover thead-dark">
+        <thead>
+            <tr>
+                <th scope="col">Nutrient No</th>
+                <th scope="col">NDB_No</th>
+                <th scope="col">Nutrient Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for nutrient in object_list %}
+            <tr>
+                <td>{{ nutrient.Nutr_No.Nutr_No }}</td>
+                <td>{{ nutrient.NDB_No.NDB_No }}</td>
+                <td>{{ nutrient.Nutr_Val }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% include 'demo/_large_pagination.html' %}
+{% endblock %}
