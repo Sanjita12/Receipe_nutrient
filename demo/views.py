@@ -275,8 +275,9 @@ class ImportData(generic.TemplateView):
         nutrient_def_obj_model_keys = ('Nutr_No', 'Units', 'Tagname', 'NutrDesc', 'Num_Dec', 'SR_Order')
 
         parsed_data = {}
-        filepath_list = {'ingredient': 'FOOD_DES.txt', 'nutrient': 'NUT_DATA.txt', 'weight': 'WEIGHT.txt', 'nut_def': 'NUT_DEF.txt'}
-        key_list = {'ingredient': product_obj_keys, 'nutrient': nutrient_obj_keys, 'weight': weight_obj_keys, 'nut_def': nutrient_def_obj_model_keys}
+        # filepath_list = {'ingredient': 'FOOD_DES.txt', 'nutrient': 'NUT_DATA.txt', 'weight': 'WEIGHT.txt', 'nut_def': 'NUT_DEF.txt'}
+        filepath_list = {'ingredient': 'FOOD_DES.txt', 'nut_def': 'NUT_DEF.txt', 'weight': 'WEIGHT.txt', 'nutrient': 'NUT_DATA.txt',}
+        key_list = {'ingredient': product_obj_keys, 'nut_def': nutrient_def_obj_model_keys, 'weight': weight_obj_keys, 'nutrient': nutrient_obj_keys }
         for key,filepath in filepath_list.items():
             with open(os.path.join(settings.BASE_DIR, filepath), 'r') as file_object:
                 line = file_object.readline()
@@ -300,23 +301,23 @@ class ImportData(generic.TemplateView):
                 #     Ingredient(**ingredient).save()
             elif key == 'weight':
                 pass
-                # print('Inside Weight')
-                # ingredient_obj = None
-                # for weight in data:
-                #     start_create = time.time()
-                #     weight = dictfilt(weight, weight_obj_model_keys)
-                #     # to refer ingredient we need to fetch it
-                #     if ingredient_obj and ingredient_obj.NDB_No == weight['NDB_No']:
-                #         weight['NDB_No'] = ingredient_obj
-                #     else:
-                #         ingredient_obj = Ingredient.objects.get(NDB_No=weight['NDB_No'])
-                #         weight['NDB_No'] = ingredient_obj
-                #     try:
-                #         Weight(**weight).save()
-                #     except:
-                #         print('Already in the system')
-                #     end_create = time.time()
-                #     print('Created in ' + str(end_create-start_create))
+                print('Inside Weight')
+                ingredient_obj = None
+                for weight in data:
+                    start_create = time.time()
+                    weight = dictfilt(weight, weight_obj_model_keys)
+                    # to refer ingredient we need to fetch it
+                    if ingredient_obj and ingredient_obj.NDB_No == weight['NDB_No']:
+                        weight['NDB_No'] = ingredient_obj
+                    else:
+                        ingredient_obj = Ingredient.objects.get(NDB_No=weight['NDB_No'])
+                        weight['NDB_No'] = ingredient_obj
+                    try:
+                        Weight(**weight).save()
+                    except:
+                        print('Already in the system')
+                    end_create = time.time()
+                    print('Created in ' + str(end_create-start_create))
             elif key == 'nutrient':
                 pass
                 # to refer ingredient, nutrient def we need to fetch it
@@ -358,7 +359,7 @@ class ImportData(generic.TemplateView):
                 # print('Created in ' + str(end_create-start_create))
     def clear_data(self):
         pass
-        # Nutrient.objects.all().delete()
+        Nutrient.objects.all().delete()
         # Weight.objects.all().delete()
         # Ingredient.objects.all().delete()
         # NutrientDef.objects.all().delete()

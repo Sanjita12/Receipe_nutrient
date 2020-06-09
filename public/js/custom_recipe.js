@@ -57,7 +57,7 @@ $(function () {
         $(this).parent().parent().remove();
     })
  
-    $('.recipe-block').on('click', 'button#save_recipe', function() {
+    $('.recipe-block-bkah').on('click', 'button#save_recipe', function() {
         var recipe_name = $('#recipe_name').val();
         if(recipe_name == '' || ingredient_name.length < 3) {
             return false;
@@ -70,6 +70,7 @@ $(function () {
         if(ingredients.length == 0) {
             return false;
         }
+        console.log('Data is being intercepted');
         $.post({
             url:  "/customer/save-recipe/",
             type:  'POST',
@@ -82,6 +83,36 @@ $(function () {
         });
         console.log('Saving Recipe');
 
+    })
+    $('#recipe_form').on('submit', function(e) {
+        e.preventDefault();
+        console.log('I am here');
+        var recipe_name = $('#recipe_name').val();
+        if(recipe_name == '' || ingredient_name.length < 3) {
+            return false;
+        }
+        var ingredients = [];
+        $('tr.ingredient_rows').each(function(index, element) {
+            var temp_obj = { 'NDB_No': $(element).attr('data-NDB_No'), 'quantity': $(element).attr('data-quantity'), 'serving_type' : $(element).attr('data-serving_type'), 'serving_size' : $(element).attr('data-serving_size')};
+            ingredients.push(temp_obj);
+        })
+        if(ingredients.length == 0) {
+            return false;
+        }
+        var csrfmiddlewaretoken = $('#recipe_form').find('input[name="csrfmiddlewaretoken"]').val();
+        $.post({
+            url:  this.action,
+            type:  'POST',
+            dataType: 'JSON',
+            data: { 'data': JSON.stringify({'recipe_name':  recipe_name, 'ingredients': ingredients}), 'csrfmiddlewaretoken': csrfmiddlewaretoken},
+            success: function(data){
+                console.log('Successfully saved recipe');
+                alert('Successfully saved recipe')
+                console.log(data);
+                location.href = "../../customer/recipes/"+data.id+"/";
+            }
+        });
+        return false;
     })
 
 });
